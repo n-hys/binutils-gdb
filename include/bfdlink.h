@@ -523,6 +523,10 @@ struct bfd_link_info
      the linker.  */
   unsigned int non_contiguous_regions_warnings : 1;
 
+  unsigned int rtldinfo: 1;
+
+  char *rtldinfo_name;
+
   /* Char that may appear as the first char of a symbol, but should be
      skipped (like symbol_leading_char) when looking up symbols in
      wrap_hash.  Used by PowerPC Linux for 'dot' symbols.  */
@@ -962,6 +966,7 @@ struct bfd_elf_version_deps
   struct bfd_elf_version_deps *next;
   /* The version which this version depends upon.  */
   struct bfd_elf_version_tree *version_needed;
+  const char *version_needed_name;
 };
 
 /* A node in the version tree.  */
