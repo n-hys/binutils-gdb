@@ -131,6 +131,7 @@ case ${generic_target} in
       aarch64*-linux-gnu_ilp32)		arch=aarch64:32 ;;
     esac ;;
   aarch64*-*-netbsd*)			fmt=elf em=nbsd;;
+  aarch64*-*-solaris*)			fmt=elf em=solaris ;;
 
   alpha-*-*vms*)			fmt=evax ;;
   alpha-*-osf*)				fmt=ecoff ;;
@@ -359,6 +360,8 @@ case ${generic_target} in
   ppc-*-kaos*)				fmt=elf ;;
 
   pru-*-*)				fmt=elf ;;
+
+  riscv64-*-solaris*)			fmt=elf endian=little em=solaris ;;
 
   riscv*-*-*)				fmt=elf ;;
 
