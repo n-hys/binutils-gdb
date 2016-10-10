@@ -45,6 +45,8 @@ targ64_extra_libpath=
 # architecture variants should be kept together even if their names
 # break the alpha sorting.
 case "${targ}" in
+aarch64-*-solaris2*)	targ_emul=aarch64elf
+			targ_extra_emuls="aarch64elf32 aarch64elf32b aarch64elfb armelf armelfb" ;;
 aarch64_be-*-elf)	targ_emul=aarch64elfb
 			targ_extra_emuls="aarch64elf aarch64elf32 aarch64elf32b armelfb armelf" ;;
 aarch64-*-elf | aarch64-*-rtems*)
@@ -79,6 +81,7 @@ alpha*-*-linux*ecoff*)	targ_emul=alpha targ_extra_emuls=elf64alpha
 alpha*-*-linux-*)	targ_emul=elf64alpha targ_extra_emuls=alpha
 			tdir_alpha=`echo ${targ_alias} | sed -e 's/linux\(-gnu\)*/linux\1ecoff/'` ;;
 alpha*-*-osf*)		targ_emul=alpha ;;
+alpha*-*-solaris2*)	targ_emul=elf64alpha ;;
 alpha*-*-gnu*)		targ_emul=elf64alpha ;;
 alpha*-*-netbsd*)	targ_emul=elf64alpha_nbsd ;;
 alpha*-*-openbsd*)	targ_emul=elf64alpha ;;
@@ -640,6 +643,7 @@ riscv-*-* | riscv32*-*-*)
 			targ_emul=elf32lriscv
 			targ_extra_emuls="elf64lriscv"
 			targ_extra_libpath=$targ_extra_emuls ;;
+riscv64-*-solaris2*)	targ_emul=elf64lriscv ;;
 riscv64*-*-linux*)	targ_emul=elf64lriscv
 			targ_extra_emuls="elf64lriscv_lp64f elf64lriscv_lp64 elf32lriscv elf32lriscv_ilp32f elf32lriscv_ilp32"
 			targ_extra_libpath=$targ_extra_emuls ;;

@@ -127,12 +127,14 @@ case ${generic_target} in
     case ${cpu}-${os} in
       aarch64*-linux-gnu_ilp32)		arch=aarch64:32 ;;
     esac ;;
+  aarch64*-*-solaris*)			fmt=elf em=solaris ;;
 
   alpha-*-*vms*)			fmt=evax ;;
   alpha-*-osf*)				fmt=ecoff ;;
   alpha-*-linux*ecoff*)			fmt=ecoff ;;
   alpha-*-linux-*)			fmt=elf em=linux ;;
   alpha-*-netbsd* | alpha-*-openbsd*)	fmt=elf em=nbsd ;;
+  alpha-*-solaris*)			fmt=elf em=solaris ;;
 
   arc-*-elf*)				fmt=elf ;;
   arc*-*-linux*)			fmt=elf bfd_gas=yes ;;
@@ -363,6 +365,8 @@ case ${generic_target} in
   ppc-*-lynxos*)			fmt=elf em=lynx ;;
 
   pru-*-*)				fmt=elf ;;
+
+  riscv64-*-solaris*)			fmt=elf endian=little em=solaris ;;
 
   riscv*-*-*)				fmt=elf endian=little ;;
 

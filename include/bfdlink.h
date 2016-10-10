@@ -509,8 +509,12 @@ struct bfd_link_info
   /* TRUE if "-Map map" is passed to linker.  */
   unsigned int has_map_file : 1;
 
+  unsigned int rtldinfo: 1;
+
   /* The 1-byte NOP for x86 call instruction.  */
   char call_nop_byte;
+
+  char *rtldinfo_name;
 
   /* Char that may appear as the first char of a symbol, but should be
      skipped (like symbol_leading_char) when looking up symbols in
@@ -919,6 +923,7 @@ struct bfd_elf_version_deps
   struct bfd_elf_version_deps *next;
   /* The version which this version depends upon.  */
   struct bfd_elf_version_tree *version_needed;
+  const char *version_needed_name;
 };
 
 /* A node in the version tree.  */
