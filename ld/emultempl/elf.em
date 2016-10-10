@@ -712,6 +712,11 @@ fragment <<EOF
 	link_info.unresolved_syms_in_objects = RM_IGNORE;
       else if (strcmp (optarg, "muldefs") == 0)
 	link_info.allow_multiple_definition = TRUE;
+      else if (CONST_STRNEQ (optarg, "rtldinfo=") && strlen(&optarg[9]))
+	{
+		link_info.rtldinfo = TRUE;
+		link_info.rtldinfo_name = strdup(optarg + 9);
+	}
       else if (CONST_STRNEQ (optarg, "max-page-size="))
 	{
 	  char *end;

@@ -4975,6 +4975,59 @@ riscv_elf_obj_attrs_arg_type (int tag)
   return (tag & 1) != 0 ? ATTR_TYPE_FLAG_STR_VAL : ATTR_TYPE_FLAG_INT_VAL;
 }
 
+static int
+elfNN_riscv_additional_program_headers (bfd *abfd,
+				       struct bfd_link_info *info ATTRIBUTE_UNUSED)
+{
+  asection *s;
+  int count = 0;
+
+  /* Check to see if we need a large readonly segment.  */
+  s = bfd_get_section_by_name (abfd, ".dtrace_data");
+  if (s && (s->flags & SEC_LOAD))
+    count++;
+
+  return count;
+}
+
+#define	PT_SUNWDTRACE	0x6ffffffc
+static bfd_boolean
+elfNN_riscv_modify_segment_map (bfd *abfd,
+    struct bfd_link_info *info ATTRIBUTE_UNUSED)
+{
+	struct elf_segment_map *m;
+	asection *sec;
+
+	sec = bfd_get_section_by_name (abfd, ".dtrace_data");
+	if (sec != NULL && (sec->flags & SEC_LOAD) != 0)
+	{
+		m = elf_seg_map (abfd);
+		while (m && m->p_type != PT_SUNWDTRACE)
+			m = m->next;
+
+		if (!m)
+		{
+			m = (struct elf_segment_map *) bfd_zalloc(abfd, sizeof (struct elf_segment_map));
+			if (m == NULL)
+				return FALSE;
+			m->p_type = PT_SUNWDTRACE;
+			m->count = 1;
+			m->sections[0] = sec;
+			m->next = elf_seg_map (abfd);
+			elf_seg_map (abfd) = m;
+		}
+	}
+
+	return TRUE;
+}
+
+static const struct bfd_elf_special_section
+  elfNN_riscv_special_sections[]=
+{
+  { STRING_COMMA_LEN (".dtrace_data"),	    0, SHT_PROGBITS, SHF_ALLOC + SHF_WRITE + SHF_EXECINSTR},
+  { NULL,	                0,          0, 0,            0 }
+};
+
 #define TARGET_LITTLE_SYM		riscv_elfNN_vec
 #define TARGET_LITTLE_NAME		"elfNN-littleriscv"
 #define TARGET_BIG_SYM			riscv_elfNN_be_vec
@@ -5007,6 +5060,10 @@ riscv_elf_obj_attrs_arg_type (int tag)
 #define bfd_elfNN_mkobject		     elfNN_riscv_mkobject
 
 #define elf_backend_init_index_section	     _bfd_elf_init_1_index_section
+
+#define elf_backend_special_sections	     elfNN_riscv_special_sections
+#define elf_backend_modify_segment_map	     elfNN_riscv_modify_segment_map
+#define elf_backend_additional_program_headers elfNN_riscv_additional_program_headers
 
 #define elf_backend_can_gc_sections	1
 #define elf_backend_can_refcount	1
